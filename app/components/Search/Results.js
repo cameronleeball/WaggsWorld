@@ -1,8 +1,6 @@
 // Include React as a dependency
 var React = require("react");
 
-// Include our helpers for API calls
-var helpers = require("../../utils/helpers");
 
 // Results Component Declaration
 var Results = React.createClass({

@@ -5,8 +5,6 @@ var Link = require("react-router").Link;
 var Query = require("./search/Query");
 var Results = require("./search/Results");
 
-// Include the helpers for making API calls
-var helpers = require("../utils/helpers");
 
 // Create the Search component
 var Login = React.createClass({
@@ -18,7 +16,7 @@ var Login = React.createClass({
       <div className="main-container">
 
         {/* Note how we pass the setQuery function to enable Query to perform searches */}
-        <h1>User Login</h1>  
+        <h1>User Login</h1>
         <form action="/api/users/login" method="post">
           <label>
             Username:
@@ -34,7 +32,7 @@ var Login = React.createClass({
         <Link to="/registration">Sign up Here!</Link>
       </div>
     );
-  } 
+  }
 
 });
 

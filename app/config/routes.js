@@ -28,7 +28,7 @@ var Services = require("../components/Services");
 var DogMap = require("../components/DogMap");
 var Events = require("../components/Events");
 var WaggMates = require("../components/WaggMates");
-var WaggDate = require("../components/WaggDates");
+var WaggDates = require("../components/WaggDates");
 var Registration = require("../components/Registration");
 var Login = require("../components/Login");
 
