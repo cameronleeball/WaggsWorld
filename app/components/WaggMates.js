@@ -9,7 +9,7 @@ var Results = require("./search/Results");
 var helpers = require("../utils/helpers");
 
 // Create the Search component
-var Breeding = React.createClass({
+var WaggMates = React.createClass({
 
   render: function() {
 
@@ -103,4 +103,4 @@ var Breeding = React.createClass({
 });
 
 // Export the module back to the route
-module.exports = Breeding;
+module.exports = WaggMates;

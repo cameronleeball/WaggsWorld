@@ -9,7 +9,7 @@ var Results = require("./search/Results");
 var helpers = require("../utils/helpers");
 
 // Create the Search component
-var DogDate = React.createClass({
+var WaggDates = React.createClass({
 
   // Render the component. Note how we deploy both the Query and the Results Components
   render: function() {
@@ -25,4 +25,4 @@ var DogDate = React.createClass({
 });
 
 // Export the module back to the route
-module.exports = DogDate;
+module.exports = WaggDates;
