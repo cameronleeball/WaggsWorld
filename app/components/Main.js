@@ -26,7 +26,7 @@ var Main = React.createClass({
                           <li><Link to="/dogdate">WaggDates</Link></li>
                           <li><Link to="/services">Services</Link></li>
                           <li><Link to="/events">Events</Link></li>
-                          <li><Link to="/breeding">Breeding</Link></li>
+                          <li><Link to="/breeding">WaggMates</Link></li>
                           <li><Link to="/login">Login</Link></li>
                       </ul>
                   </div>
@@ -39,8 +39,7 @@ var Main = React.createClass({
 
           <footer>
             <hr />
-            <p className="pull-right">
-            Copyright 2017 Team Fuji
+            <p className="text-center copyright-font">&copy;2017 Team Fuji
             </p>
           </footer>
         </div>

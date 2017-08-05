@@ -18,7 +18,7 @@ var DogDate = React.createClass({
       <div className="main-container">
 
         {/* Note how we pass the setQuery function to enable Query to perform searches */}
-        <h1>DogDate Component</h1>
+        <h1>WaggDates</h1>
       </div>
     );
   }
