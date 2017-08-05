@@ -5,7 +5,7 @@ var passportLocalMongoose = require("passport-local-mongoose");
 
 
 var userSchema = new Schema({
-    
+
     username: String,
     access: {
         level: Number,
@@ -26,13 +26,20 @@ var userSchema = new Schema({
             zip: String
         }
     },
+    created: {
+        type: Date,
+        default: Date.now
+    },
     last: Date,
+    loggedIn: Boolean,
     attempts: Number
 });
 
 userSchema.plugin(passportLocalMongoose,
-    {limitAttempts: false,
-        maxAttemps: 5})
+    {
+        limitAttempts: false,
+        maxAttemps: 5
+    })
 
 var User = mongoose.model("User", userSchema);
 module.exports = User;

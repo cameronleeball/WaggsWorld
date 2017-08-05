@@ -4,7 +4,8 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var cookieParser = require('cookie-parser');
-var session = require('cookie-session');
+var session = require('express-session');
+var flash = require('connect-flash');
 
 // Require Schemas
 var User = require("./server/models/user");
@@ -14,13 +15,17 @@ var app = express();
 var PORT = process.env.PORT || 8080; // Sets an initial port. We'll use this later in our listener
 
 // Run Morgan for Logging
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+  app.use(logger("dev"));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.text());
+  app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+  app.use(flash());
+  app.use(cookieParser('keyboard cat'));
+  app.use(session({ cookie: { maxAge: 60000 } }));
+  app.use(express.static("./public"));
 
-app.use(express.static("./public"));
+
 
 // -------------------------------------------------
 
@@ -80,31 +85,51 @@ app.get('/api/users/login', function (req, res, next) {
     if (!user) { return res.redirect('/login'); }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
-      User.
-        findOneAndUpdate({ username: user.username }, {
-          last: Date.now,
-        }
-        )
       //need to finish adding tracking metric info for user login info... lastLogin, attempts, etc. 
-
-
-
       // return res.redirect('/users/' + user.username);
     });
   });
 });
 
-app.post('/api/users/login', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-      if (err) { return next(err); }
-      // if (!user) { return res.redirect('/login'); }
-      req.logIn(user, function (err) {
-        if (err) { return next(err); }
-        console.log('User ' + req.body.username + ' authenticated succesfully');
-        return res.redirect('/'), res.send({ user: user.username });
-      });
-    })(req, res, next);
+app.post('/api/users/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+  }),
+  function (req, res) {
+    var query = {
+      'username': req.user.username
+    };
+    var update = {
+      last: Date.now(),
+      loggedIn: true
+    };
+    var options = {
+      new: true
+    };
+    User.findOneAndUpdate(query, update, options, function (err, user) {
+      if (err) {
+        console.log(err);
+      }
+    });
+    console.log('User ' + req.body.username + ' authenticated succesfully');
+    // if login is successfull, the following message will be displayed
+    // res.json('Welcome ' + req.user.username);
   });
+//  function (err, user, info) {
+//   if (err) { return next(err); }
+//   // if (!user) { return res.redirect('/login'); }
+//   req.logIn(user, function (err) {
+//     if (err) { return next(err); }
+//     User.
+//       findOneAndUpdate({ username: user.username }, {
+//         last: Date.now()
+//       });
+
+//   });
+// })(req, res, next);
+
 
 
 
