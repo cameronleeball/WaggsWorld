@@ -7,9 +7,9 @@ var passportLocalMongoose = require("passport-local-mongoose");
 var userSchema = new Schema({
 
     username: String,
-    access: {
+    roles: {
         level: Number,
-        group: String
+        name: String
     },
     personal: {
         first: String,
