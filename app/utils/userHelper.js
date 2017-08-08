@@ -3,8 +3,8 @@ var axios = require("axios");
 axios.defaults.withCredentials = true;
 
 var userHelpers = {
-  getUser: function() {
-    return axios.get("/session/get")
+  getSessionUser: function() {
+    return axios.get("/api/session/users")
       .then(function(results) {
         return results;
       });

@@ -17,7 +17,7 @@ var Login = React.createClass({
 
         {/* Note how we pass the setQuery function to enable Query to perform searches */}
         <h1>User Login</h1>
-        <form action="/api/users/login" method="post">
+        <form action="/api/session/users/login" method="post">
           <label>
             Username:
             <input type="text" name="username" />

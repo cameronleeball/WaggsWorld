@@ -32,6 +32,7 @@ var WaggDates = require("../components/WaggDates");
 var Registration = require("../components/Registration");
 var Login = require("../components/Login");
 var WaggsMap = require("../components/WaggsMap");
+var Profile = require("../components/Profile")
 
 // Export the Routes
 module.exports = (
@@ -48,6 +49,7 @@ module.exports = (
       <Route path="WaggMates" component={WaggMates} />
       <Route path="WaggDates" component={WaggDates} />
       <Route path="Registration" component={Registration} />
+      <Route path="Profile" component={Profile} />
       <Route path="Login" component={Login} />
 
       {/* If user selects any other path... we get the Home Route */}

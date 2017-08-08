@@ -1,13 +1,18 @@
 // Include Server Dependencies
 var express = require("express");
+var favicon = require('serve-favicon');
 var bodyParser = require("body-parser");
+var cookieparser = require('cookie-parser');
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var cors = require('cors');
+var path = require('path');
+var assert = require('assert');
+
 
 // Require Schemas
 var User = require("./server/models/user");
@@ -17,6 +22,8 @@ var Bars = require("./server/models/bars");
 var app = express();
 var PORT = process.env.PORT || 8080; // Sets an initial port. We'll use this later in our listener
 app.use(express.static("./public"));
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 var dbUrl = "mongodb://webuser:webuser@ds129023.mlab.com:29023/waggsworld"
 // MongoDB Configuration configuration
@@ -49,8 +56,8 @@ store.on('error', function (error) {
 });
 
 
-
 // Run Morgan for Logging
+
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -60,7 +67,8 @@ app.use(session({
   secret: 'cats rule dogs drool',
   cookie: {
     secure: true,
-    expires: new Date(Date.now() + hour)
+    expires: new Date(Date.now() + hour),
+    path: '/api/session/',
   },
   store: store,
   resave: true,
@@ -68,9 +76,9 @@ app.use(session({
 }));
 
 app.use(cors({
-    origin:['http://localhost:8080'],
-    methods:['GET','POST'],
-    credentials: true // enable set cookie
+  origin: ['http://localhost:8080'],
+  methods: ['GET', 'POST'],
+  credentials: true // enable set cookie
 }));
 
 app.use(passport.initialize());
@@ -79,44 +87,49 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser(function (user, done) {
-  var sessionUser = {
-    _id: user._id,
-    name: user.personal.first,
-    email: user.contact.email,
-    roles: user.roles
-  }
-  done(null, sessionUser)
+  done(null, user.id);
 }));
-passport.deserializeUser(User.deserializeUser(function (sessionUser, done) {
-  done(null, sessionUser)
-}
-));
+passport.deserializeUser(User.deserializeUser(function (id, done) {
+  User.findById({passport: {user: id}}).then( function (err, user) {
+    done(null, user);
+  }).catch(function(err) {
+    done(err,null);
+  });
+}));
 
 User.createStrategy();
 
+//#############################################################################
 
-app.post("/api/users/registration",
-  function (req, res) {
+// app.get("/api/users/:id", function (res, req) {
+//   User.find({ username: req.params.id})
+//     .exec(function (err, doc) {
 
-    newUser = new User(req.body);
+//     });
+// })
 
-    User.register(newUser, req.body.password, function (err, newUser) {
-      if (err) {
-        console.log('An error occured', err);
-        res.redirect('/register');
-      } else {
-        console.log('User ' + newUser.username + ' created succesfully');
-        req.login(newUser, function(err) {
-          if(!err) {
-            res.redirect('/');
-          }
-          else {
-            console.log(err);
-          }
-        })
-      }
-    });
-  });
+// app.post("/api/users/registration",
+//   function (req, res) {
+
+//     newUser = new User(req.body);
+
+//     User.register(newUser, req.body.password, function (err, newUser) {
+//       if (err) {
+//         console.log('An error occured', err);
+//         res.redirect('/register');
+//       } else {
+//         console.log('User ' + newUser.username + ' created succesfully');
+//         req.login(newUser, function (err) {
+//           if (!err) {
+//             res.redirect('/');
+//           }
+//           else {
+//             console.log(err);
+//           }
+//         })
+//       }
+//     });
+//   });
 
 
 app.post('/api/users/login',
@@ -143,8 +156,8 @@ app.post('/api/users/login',
 
   });
 
-app.get('/session/get', function({session, user}, res) {
-  res.json({ session: passport.user })
+app.get('/api/session/users', function ({ session, user }, res) {
+  res.json({ session });
 });
 
 
