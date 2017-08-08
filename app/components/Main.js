@@ -23,7 +23,11 @@ var Main = React.createClass({
                   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                       <ul className="nav navbar-nav navbar-right">
                           <li><Link to="/waggsmap">WaggMap</Link></li>
+<<<<<<< HEAD
                           <li><Link to="/waggdates">WaggDates</Link></li>
+=======
+                          <li><Link to="/waggDates">WaggDates</Link></li>
+>>>>>>> 8a75640fa902124782315f641a8192b0e7e3d4a5
                           <li><Link to="/services">Services</Link></li>
                           <li><Link to="/events">Events</Link></li>
                           <li><Link to="/waggmates">WaggMates</Link></li>

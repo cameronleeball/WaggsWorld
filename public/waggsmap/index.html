@@ -67,7 +67,7 @@
         });
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[34.7820150799,-81.481070627],[35.7814478853,-80.2674736491]]);
+        }).fitBounds([[34.7820150799,-81.7626568539],[35.7814478853,-79.9858874222]]);
         var hash = new L.Hash(map);
         map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
         L.control.locate().addTo(map);
@@ -98,47 +98,47 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">id</th>\
+                        <th scope="row">Yelp ID</th>\
                         <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">phone</th>\
+                        <th scope="row">Phone</th>\
                         <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">image_url</th>\
+                        <th scope="row">Image URL</th>\
                         <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">yelp_url</th>\
+                        <th scope="row">Yelp URL</th>\
                         <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">review_count</th>\
+                        <th scope="row">Total Reviews</th>\
                         <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">rating</th>\
+                        <th scope="row">Rating</th>\
                         <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -171,8 +171,11 @@
                 return L.marker(latlng, style_DogFriendlyBars0_0(feature))
             },
         });
+        var cluster_DogFriendlyBars0 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_DogFriendlyBars0.addLayer(layer_DogFriendlyBars0);
+
         bounds_group.addLayer(layer_DogFriendlyBars0);
-        map.addLayer(layer_DogFriendlyBars0);
+        cluster_DogFriendlyBars0.addTo(map);
         function pop_Boarding1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -183,47 +186,47 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">id</th>\
+                        <th scope="row">Yelp ID</th>\
                         <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">phone</th>\
+                        <th scope="row">Phone</th>\
                         <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">image_url</th>\
+                        <th scope="row">Image URL</th>\
                         <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">yelp_url</th>\
+                        <th scope="row">Yelp URL</th>\
                         <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">review_count</th>\
+                        <th scope="row">Total Reviews</th>\
                         <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">rating</th>\
+                        <th scope="row">Rating</th>\
                         <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -256,8 +259,10 @@
                 return L.marker(latlng, style_Boarding1_0(feature))
             },
         });
+        var cluster_Boarding1 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_Boarding1.addLayer(layer_Boarding1);
+
         bounds_group.addLayer(layer_Boarding1);
-        map.addLayer(layer_Boarding1);
         function pop_Veterinarians2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -268,47 +273,47 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">id</th>\
+                        <th scope="row">Yelp ID</th>\
                         <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">phone</th>\
+                        <th scope="row">Phone</th>\
                         <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">image_url</th>\
+                        <th scope="row">Image URL</th>\
                         <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">yelp_url</th>\
+                        <th scope="row">Yelp URL</th>\
                         <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">review_count</th>\
+                        <th scope="row">Total Reviews</th>\
                         <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">rating</th>\
+                        <th scope="row">Rating</th>\
                         <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -341,8 +346,10 @@
                 return L.marker(latlng, style_Veterinarians2_0(feature))
             },
         });
+        var cluster_Veterinarians2 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_Veterinarians2.addLayer(layer_Veterinarians2);
+
         bounds_group.addLayer(layer_Veterinarians2);
-        map.addLayer(layer_Veterinarians2);
         function pop_Groomers3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -353,47 +360,47 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">id</th>\
+                        <th scope="row">Yelp ID</th>\
                         <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">phone</th>\
+                        <th scope="row">Phone</th>\
                         <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">image_url</th>\
+                        <th scope="row">Image URL</th>\
                         <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">yelp_url</th>\
+                        <th scope="row">Yelp URL</th>\
                         <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">review_count</th>\
+                        <th scope="row">Total Reviews</th>\
                         <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">rating</th>\
+                        <th scope="row">Rating</th>\
                         <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -426,8 +433,10 @@
                 return L.marker(latlng, style_Groomers3_0(feature))
             },
         });
+        var cluster_Groomers3 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_Groomers3.addLayer(layer_Groomers3);
+
         bounds_group.addLayer(layer_Groomers3);
-        map.addLayer(layer_Groomers3);
         function pop_AnimalHospitals4(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -438,47 +447,47 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">id</th>\
+                        <th scope="row">Yelp ID</th>\
                         <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">phone</th>\
+                        <th scope="row">Phone</th>\
                         <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">image_url</th>\
+                        <th scope="row">Image URL</th>\
                         <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">yelp_url</th>\
+                        <th scope="row">Yelp URL</th>\
                         <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">review_count</th>\
+                        <th scope="row">Total Reviews</th>\
                         <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">rating</th>\
+                        <th scope="row">Rating</th>\
                         <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -511,8 +520,10 @@
                 return L.marker(latlng, style_AnimalHospitals4_0(feature))
             },
         });
+        var cluster_AnimalHospitals4 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_AnimalHospitals4.addLayer(layer_AnimalHospitals4);
+
         bounds_group.addLayer(layer_AnimalHospitals4);
-        map.addLayer(layer_AnimalHospitals4);
         function pop_DogParks5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -523,31 +534,31 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">name</th>\
+                        <th scope="row">Name</th>\
                         <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">desc</th>\
+                        <th scope="row">Description</th>\
                         <td>' + (feature.properties['desc'] !== null ? Autolinker.link(String(feature.properties['desc'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">url</th>\
+                        <th scope="row">Web Site</th>\
                         <td>' + (feature.properties['url'] !== null ? Autolinker.link(String(feature.properties['url'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">address</th>\
+                        <th scope="row">Address</th>\
                         <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">city</th>\
+                        <th scope="row">City</th>\
                         <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">state</th>\
+                        <th scope="row">State</th>\
                         <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">zip_code</th>\
+                        <th scope="row">Zip</th>\
                         <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
                     </tr>\
                 </table>';
@@ -580,8 +591,10 @@
                 return L.marker(latlng, style_DogParks5_0(feature))
             },
         });
+        var cluster_DogParks5 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_DogParks5.addLayer(layer_DogParks5);
+
         bounds_group.addLayer(layer_DogParks5);
-        map.addLayer(layer_DogParks5);
         var osmGeocoder = new L.Control.OSMGeocoder({
             collapsed: false,
             position: 'topright',
@@ -589,10 +602,10 @@
         });
         osmGeocoder.addTo(map);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/DogParks5.png" /> Dog Parks': layer_DogParks5,'<img src="legend/AnimalHospitals4.png" /> Animal Hospitals': layer_AnimalHospitals4,'<img src="legend/Groomers3.png" /> Groomers': layer_Groomers3,'<img src="legend/Veterinarians2.png" /> Veterinarians': layer_Veterinarians2,'<img src="legend/Boarding1.png" /> Boarding': layer_Boarding1,'<img src="legend/DogFriendlyBars0.png" /> Dog Friendly Bars': layer_DogFriendlyBars0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/DogParks5.png" /> Dog Parks': cluster_DogParks5,'<img src="legend/AnimalHospitals4.png" /> Animal Hospitals': cluster_AnimalHospitals4,'<img src="legend/Groomers3.png" /> Groomers': cluster_Groomers3,'<img src="legend/Veterinarians2.png" /> Veterinarians': cluster_Veterinarians2,'<img src="legend/Boarding1.png" /> Boarding': cluster_Boarding1,'<img src="legend/DogFriendlyBars0.png" /> Dog Friendly Bars': cluster_DogFriendlyBars0,},{collapsed:false}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
-            layer: layer_DogFriendlyBars0,
+            layer: cluster_DogFriendlyBars0,
             initial: false,
             hideMarkerOnCollapse: true,
             propertyName: 'name'}));
