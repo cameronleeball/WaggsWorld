@@ -1,10 +1,10 @@
-var React = require("react");
+import React from 'react';
+import { render } from 'react-dom';
 
-var helper = require("../../utils/eventHelper.js");
+class Event extends React.Component{
 
-var Event = React.createClass({
 
-	render: function(){
+	render(){
 		return(
 			<div className="col-sm-6 col-md-6">
             	<div className="single_news">
@@ -39,6 +39,9 @@ var Event = React.createClass({
             </div>
 			)
 	}
+}
+
+
 });
 
 

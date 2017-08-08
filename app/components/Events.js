@@ -1,41 +1,42 @@
-// Include React as a dependency
-var React = require("react");
+import React from 'react';
+import { render } from 'react-dom';
 
-// Include the Query and Results components
-var Query = require("./search/Query");
-var Results = require("./search/Results");
+import helpers from "../utils/eventHelper";
 
-// Include the helpers for making API calls
-var helpers = require("../utils/eventHelper");
+class Events extends React.Component{
 
-// Create the Search component
-var DogDate = React.createClass({
+    constructor(){
+        super();
+        this.state = {dailyEvents : []}
+    }
 
-  // Render the component. Note how we deploy both the Query and the Results Components
-  render: function() {
+    componentDidMount(){
+        helpers.runQuery()
+    }
 
-    return (
-      <div className="main-container">
-        <div className="row">
-            <section id="blog" className="section">
-                <div className="container">
-                    <div className="title text-center">
-                        <h2 className="text-uppercase">Dog Date</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                    </div>
-                    <div id="my_news" className="mrg_top80 row-eq-height">
-                        <div className="row">
+    render(){
+        return (
+            <div className="main-container">
+                <div className="row">
+                    <section id="blog" className="section">
+                        <div className="container">
+                            <div className="title text-center">
+                                <h2 className="text-uppercase">Events</h2>
+                                <p>Check out these local dog events!</p>
+                            </div>
+                        <div id="my_news" className="mrg_top80 row-eq-height">
+                            <div className="row">
 
-
+                            </div>
                         </div>
-                    </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
-        </div>
-      </div>
+            </div>
     );
-  }
-});
+    }
+}
+
 
 // Export the module back to the route
-module.exports = DogDate;
+module.exports = Events;
