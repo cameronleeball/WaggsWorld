@@ -7,6 +7,7 @@ var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var cors = require('cors');
 
 // Require Schemas
 var User = require("./server/models/user");
@@ -65,6 +66,13 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.use(cors({
+    origin:['http://localhost:8080'],
+    methods:['GET','POST'],
+    credentials: true // enable set cookie
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -92,46 +100,24 @@ app.post("/api/users/registration",
 
     newUser = new User(req.body);
 
-    User.register(newUser, req.body.password, function (err) {
+    User.register(newUser, req.body.password, function (err, newUser) {
       if (err) {
-        console.log('An error occured', err)
+        console.log('An error occured', err);
+        res.redirect('/register');
       } else {
         console.log('User ' + newUser.username + ' created succesfully');
-      };
-    }),
-      function (req, res) {
-        var query = {
-          'username': req.user.username
-        };
-        var update = {
-          last: Date.now(),
-          loggedIn: true
-        };
-        var options = {
-          new: true
-        };
-        User.findOneAndUpdate(query, update, options, function (err, user) {
-          if (err) {
+        req.login(newUser, function(err) {
+          if(!err) {
+            res.redirect('/');
+          }
+          else {
             console.log(err);
           }
-          console.log('User ' + req.body.username + ' authenticated succesfully');
-
-          res.redirect('/');
-        });
-      };
+        })
+      }
+    });
   });
 
-// app.get('/api/users/login', function (req, res, next) {
-//   passport.authenticate('local', function (err, user, info) {
-//     if (err) { return next(err); }
-//     if (!user) { return res.redirect('/login'); }
-//     req.logIn(user, function (err) {
-//       if (err) { return next(err); }
-//       //need to finish adding tracking metric info for user login info... lastLogin, attempts, etc. 
-//       // return res.redirect('/users/' + user.username);
-//     });
-//   });
-// });
 
 app.post('/api/users/login',
   passport.authenticate('local'),
@@ -157,14 +143,16 @@ app.post('/api/users/login',
 
   });
 
-
+app.get('/session/get', function({session, user}, res) {
+  res.json({ session: passport.user })
+});
 
 
 app.get("/api/bars", function (req, res) {
-     var METERS_PER_MILE = 1609.34;
-     Bars.find({ geometry: { $nearSphere: { $geometry: { type: "Point", coordinates: [ -80.790111, 35.069135 ] }, $maxDistance: 3 * METERS_PER_MILE } } })
+  var METERS_PER_MILE = 1609.34;
+  Bars.find({ geometry: { $nearSphere: { $geometry: { type: "Point", coordinates: [-80.790111, 35.069135] }, $maxDistance: 3 * METERS_PER_MILE } } })
 
-     .exec(function (err, doc) {
+    .exec(function (err, doc) {
       if (err) {
         console.log(err);
       }

@@ -61,11 +61,11 @@ var Registration = React.createClass({
             Zip:
             <input type="text" name="contact.address.zip" />
           </label>
-          <select name="Account Type">
+          <select name="roles.name">
             <option label="Select Account Type:"></option>
-            <option value="standard">Standard</option>
-            <option value="provider">Provider</option>
-            <option value="business">Business</option>
+            <option value="Standard" data-level ="1">Standard</option>
+            <option value="Provider" data-level ="2">Provider</option>
+            <option value="Business" data-level ="3">Business</option>
           </select>
           <input type="submit" value="Register" />
         </form>
