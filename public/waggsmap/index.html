@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" /><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link rel="stylesheet" href="css/leaflet-search.css" />
+        <link rel="stylesheet" href="css/Control.OSMGeocoder.css" />
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/leaflet-tilelayer-wmts.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/Control.OSMGeocoder.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/DogFriendlyBars0.js"></script>
+        <script src="data/Boarding1.js"></script>
+        <script src="data/Veterinarians2.js"></script>
+        <script src="data/Groomers3.js"></script>
+        <script src="data/AnimalHospitals4.js"></script>
+        <script src="data/DogParks5.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[34.7820150799,-81.481070627],[35.7814478853,-80.2674736491]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_DogFriendlyBars0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_DogFriendlyBars0_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">phone</th>\
+                        <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">image_url</th>\
+                        <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">yelp_url</th>\
+                        <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">review_count</th>\
+                        <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">rating</th>\
+                        <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_DogFriendlyBars0_0() {
+            return {
+                pane: 'pane_DogFriendlyBars0',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/bar.svg',
+            iconSize: [22.8, 22.8]
+        }),
+            }
+        }
+        map.createPane('pane_DogFriendlyBars0');
+        map.getPane('pane_DogFriendlyBars0').style.zIndex = 400;
+        map.getPane('pane_DogFriendlyBars0').style['mix-blend-mode'] = 'normal';
+        var layer_DogFriendlyBars0 = new L.geoJson(json_DogFriendlyBars0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_DogFriendlyBars0',
+            onEachFeature: pop_DogFriendlyBars0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_DogFriendlyBars0_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_DogFriendlyBars0);
+        map.addLayer(layer_DogFriendlyBars0);
+        function pop_Boarding1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_Boarding1_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">phone</th>\
+                        <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">image_url</th>\
+                        <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">yelp_url</th>\
+                        <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">review_count</th>\
+                        <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">rating</th>\
+                        <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Boarding1_0() {
+            return {
+                pane: 'pane_Boarding1',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/boarding.svg',
+            iconSize: [22.8, 22.8]
+        }),
+            }
+        }
+        map.createPane('pane_Boarding1');
+        map.getPane('pane_Boarding1').style.zIndex = 401;
+        map.getPane('pane_Boarding1').style['mix-blend-mode'] = 'normal';
+        var layer_Boarding1 = new L.geoJson(json_Boarding1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Boarding1',
+            onEachFeature: pop_Boarding1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Boarding1_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_Boarding1);
+        map.addLayer(layer_Boarding1);
+        function pop_Veterinarians2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_Veterinarians2_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">phone</th>\
+                        <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">image_url</th>\
+                        <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">yelp_url</th>\
+                        <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">review_count</th>\
+                        <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">rating</th>\
+                        <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Veterinarians2_0() {
+            return {
+                pane: 'pane_Veterinarians2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/vet.svg',
+            iconSize: [30.4, 30.4]
+        }),
+            }
+        }
+        map.createPane('pane_Veterinarians2');
+        map.getPane('pane_Veterinarians2').style.zIndex = 402;
+        map.getPane('pane_Veterinarians2').style['mix-blend-mode'] = 'normal';
+        var layer_Veterinarians2 = new L.geoJson(json_Veterinarians2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Veterinarians2',
+            onEachFeature: pop_Veterinarians2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Veterinarians2_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_Veterinarians2);
+        map.addLayer(layer_Veterinarians2);
+        function pop_Groomers3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_Groomers3_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">phone</th>\
+                        <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">image_url</th>\
+                        <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">yelp_url</th>\
+                        <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">review_count</th>\
+                        <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">rating</th>\
+                        <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Groomers3_0() {
+            return {
+                pane: 'pane_Groomers3',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/grooming.svg',
+            iconSize: [30.4, 30.4]
+        }),
+            }
+        }
+        map.createPane('pane_Groomers3');
+        map.getPane('pane_Groomers3').style.zIndex = 403;
+        map.getPane('pane_Groomers3').style['mix-blend-mode'] = 'normal';
+        var layer_Groomers3 = new L.geoJson(json_Groomers3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Groomers3',
+            onEachFeature: pop_Groomers3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Groomers3_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_Groomers3);
+        map.addLayer(layer_Groomers3);
+        function pop_AnimalHospitals4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_AnimalHospitals4_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">id</th>\
+                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">phone</th>\
+                        <td>' + (feature.properties['phone'] !== null ? Autolinker.link(String(feature.properties['phone'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">image_url</th>\
+                        <td>' + (feature.properties['image_url'] !== null ? Autolinker.link(String(feature.properties['image_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">yelp_url</th>\
+                        <td>' + (feature.properties['yelp_url'] !== null ? Autolinker.link(String(feature.properties['yelp_url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">review_count</th>\
+                        <td>' + (feature.properties['review_count'] !== null ? Autolinker.link(String(feature.properties['review_count'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">rating</th>\
+                        <td>' + (feature.properties['rating'] !== null ? Autolinker.link(String(feature.properties['rating'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_AnimalHospitals4_0() {
+            return {
+                pane: 'pane_AnimalHospitals4',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/hospital.svg',
+            iconSize: [22.8, 22.8]
+        }),
+            }
+        }
+        map.createPane('pane_AnimalHospitals4');
+        map.getPane('pane_AnimalHospitals4').style.zIndex = 404;
+        map.getPane('pane_AnimalHospitals4').style['mix-blend-mode'] = 'normal';
+        var layer_AnimalHospitals4 = new L.geoJson(json_AnimalHospitals4, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_AnimalHospitals4',
+            onEachFeature: pop_AnimalHospitals4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_AnimalHospitals4_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_AnimalHospitals4);
+        map.addLayer(layer_AnimalHospitals4);
+        function pop_DogParks5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    layer.setStyle(style_DogParks5_0(feature));
+
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">desc</th>\
+                        <td>' + (feature.properties['desc'] !== null ? Autolinker.link(String(feature.properties['desc'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">url</th>\
+                        <td>' + (feature.properties['url'] !== null ? Autolinker.link(String(feature.properties['url'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">address</th>\
+                        <td>' + (feature.properties['address'] !== null ? Autolinker.link(String(feature.properties['address'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">city</th>\
+                        <td>' + (feature.properties['city'] !== null ? Autolinker.link(String(feature.properties['city'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">state</th>\
+                        <td>' + (feature.properties['state'] !== null ? Autolinker.link(String(feature.properties['state'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">zip_code</th>\
+                        <td>' + (feature.properties['zip_code'] !== null ? Autolinker.link(String(feature.properties['zip_code'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_DogParks5_0() {
+            return {
+                pane: 'pane_DogParks5',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/park.svg',
+            iconSize: [22.8, 22.8]
+        }),
+            }
+        }
+        map.createPane('pane_DogParks5');
+        map.getPane('pane_DogParks5').style.zIndex = 405;
+        map.getPane('pane_DogParks5').style['mix-blend-mode'] = 'normal';
+        var layer_DogParks5 = new L.geoJson(json_DogParks5, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_DogParks5',
+            onEachFeature: pop_DogParks5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_DogParks5_0(feature))
+            },
+        });
+        bounds_group.addLayer(layer_DogParks5);
+        map.addLayer(layer_DogParks5);
+        var osmGeocoder = new L.Control.OSMGeocoder({
+            collapsed: false,
+            position: 'topright',
+            text: 'Search',
+        });
+        osmGeocoder.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/DogParks5.png" /> Dog Parks': layer_DogParks5,'<img src="legend/AnimalHospitals4.png" /> Animal Hospitals': layer_AnimalHospitals4,'<img src="legend/Groomers3.png" /> Groomers': layer_Groomers3,'<img src="legend/Veterinarians2.png" /> Veterinarians': layer_Veterinarians2,'<img src="legend/Boarding1.png" /> Boarding': layer_Boarding1,'<img src="legend/DogFriendlyBars0.png" /> Dog Friendly Bars': layer_DogFriendlyBars0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_DogFriendlyBars0,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'name'}));
+        </script>
+    </body>
+</html>

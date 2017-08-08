@@ -1,11 +1,6 @@
 // Include React as a dependency
 var React = require("react");
 
-// Include the Query and Results components
-var Query = require("./search/Query");
-var Results = require("./search/Results");
-
-
 // Create the Search component
 var WaggDates = React.createClass({
 

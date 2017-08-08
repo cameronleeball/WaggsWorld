@@ -20,6 +20,7 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-leaflet": "^1.4.1",
+    "react-redirect": "^1.0.0",
     "react-router": "^2.4.1",
     "socket.io": "^2.0.3"
   },

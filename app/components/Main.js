@@ -22,8 +22,8 @@ var Main = React.createClass({
 
                   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                       <ul className="nav navbar-nav navbar-right">
-                          <li><Link to="/dogmap">DogMap</Link></li>
-                          <li><Link to="/waggdates">WaggDates</Link></li>
+                          <li><Link to="/waggsmap">WaggMap</Link></li>
+                          <li><Link to="/dogdate">WaggDates</Link></li>
                           <li><Link to="/services">Services</Link></li>
                           <li><Link to="/events">Events</Link></li>
                           <li><Link to="/waggmates">WaggMates</Link></li>

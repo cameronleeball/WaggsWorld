@@ -31,7 +31,7 @@ var WaggMates = require("../components/WaggMates");
 var WaggDates = require("../components/WaggDates");
 var Registration = require("../components/Registration");
 var Login = require("../components/Login");
-
+var WaggsMap = require("../components/WaggsMap");
 
 // Export the Routes
 module.exports = (
@@ -43,7 +43,7 @@ module.exports = (
       <Route path="Search" component={Search} />
       <Route path="Saved" component={Saved} />
       <Route path="Services" component={Services} />
-      <Route path="DogMap" component={DogMap} />
+      <Route path="WaggsMap" component={WaggsMap} />
       <Route path="Events" component={Events} />
       <Route path="WaggMates" component={WaggMates} />
       <Route path="WaggDates" component={WaggDates} />
@@ -56,3 +56,5 @@ module.exports = (
     </Route>
   </Router>
 );
+
+// <Route path="DogMap" component={DogMap} />
